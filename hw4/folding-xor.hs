@@ -7,3 +7,5 @@ bAdd :: Bool -> Bool -> Bool
 bAdd b False = b
 bAdd b True = not b
 
+--DONE
+

@@ -103,3 +103,8 @@ One important thing to remember about polymorphic functions is that the caller g
 
 ## Total and Partial functions
 
+
+## Higher Order Functions
+
+ Imperative programming usually uses stuff like for loops, while loops, setting something to a variable, checking its state, etc. to achieve some behavior and then wrap it around an interface, like a function. Functional programming uses higher order functions to abstract away common patterns, like examining two lists in pairs and doing something with those pairs or getting a set of solutions and eliminating the ones you don't need.
+

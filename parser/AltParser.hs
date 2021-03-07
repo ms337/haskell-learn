@@ -43,11 +43,26 @@ instance Functor Parser where
                 | Just (x, xs) <- resFromParserFunc = Just (first func (x, xs))
                 where resFromParserFunc = parserFunc str
                 
+{-   p = char 'A'
+   d = fmap toLower p
+   runParser d "ABCD"
+=> Just ('a',"BCD")
+   runParser d "BCD"
+=> Nothing -}
+
+
+instance Applicative Parser where
+    pure a = Parser (\ _ ->  Just (a, ""))
+    (Parser p1F) <*> (Parser p2) = Parser newFunc 
+        where 
+            newFunc str
+                | Nothing <- p1FApplied = Nothing
+                | Just (func, xs) <- p1FApplied  = case applyP2ToStrOutput xs of
+                        Nothing -> Nothing
+                        Just (p2Val, ys) -> Just (func p2Val, ys)
+                where p1FApplied = p1F str
+                      applyP2ToStrOutput str = p2 str
 
 
 
 
-
-
-
---instance Applicative Parser where
