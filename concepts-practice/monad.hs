@@ -19,3 +19,6 @@ ex03 = return 12 >>= halve >>= check
 
 
 -- What is a combinator?
+
+sequence' :: Monad m => [m a] -> m a
+sequence' (ma:mas) = ma >>= \a -> sequence mas >>= \as -> return (a:as)

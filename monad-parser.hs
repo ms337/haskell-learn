@@ -61,10 +61,6 @@ sat pred = do {c <- item; if pred c then return c else mzero}
 char :: Char -> Parser Char
 char c = sat (c ==) 
 
-
-
-
-
 --Recursion Combinators
 
 string :: String -> Parser String
