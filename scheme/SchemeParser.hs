@@ -90,6 +90,17 @@ parseQuoted = do
                 return $ List [Atom "quote", x]
 
 
+parseQuasiQuoted :: Parser LispVal
+parseQuasiQuoted = do
+                    char '`'
+                    x <- parseExpr
+                    return $ List [Atom "quasiquote", x]
+
+parseUnQuote :: Parser LispVal
+parseUnQuote = do
+                char ','
+                x <- parseExpr
+                return $ List [Atom "unquote", x]
 --backtracking
 parseBracketed :: Parser LispVal
 parseBracketed = do
@@ -106,9 +117,16 @@ parseExpr = parseAtom
             <|> parseCharacter
             <|> parseQuoted
             <|> parseBracketed
+            <|> parseFloat
+            <|> parseQuoted
+            <|> parseQuasiQuoted
+            <|> parseUnQuote
+
 
 parseFloat :: Parser LispVal
 parseFloat = do
                 left <- many1 digit
                 right <- ((:) <$> oneOf "." <*> many1 digit) <|> return ""
                 return $ LispFloat (read (left ++ right))
+
+

@@ -1,5 +1,6 @@
 module Types where
 
+import System.IO
 import Data.IORef
 import Control.Monad.Except
 import Text.ParserCombinators.Parsec (ParseError)
@@ -17,7 +18,9 @@ data LispVal = Atom String
              | Character Char
              | LispFloat Double
              | PrimitiveFunc ([LispVal] -> ThrowsError LispVal)
-             | Func { params :: [String], vararg :: (Maybe String), body :: [LispVal], closure :: Env }
+             | Func {isMacro:: Bool, params :: [String], vararg :: (Maybe String), body :: [LispVal], closure :: Env }
+             | IOFunc ([LispVal] -> IOThrowsError LispVal)
+             | Port Handle
 
 data LispError = NumArgs Integer [LispVal]
                | TypeMismatch String LispVal
